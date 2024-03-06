@@ -37,3 +37,17 @@ export const propertySchema = Joi.object({
     "any.invalid": "Las imágenes no son válidas",
   }),
 });
+
+//TODO type this schema (correctly, according to what the user is sending)
+
+export const updateImageSchema = Joi.object({
+  publicIdsToDelete: Joi.string().required().messages({
+    "object.base":
+      "El objeto publicIdsToDelete debe contener claves y valores válidos",
+    "any.required": "Se requiere al menos un public ID para eliminar",
+  }),
+  images: Joi.any().messages({
+    "any.required": "La imagen es requerida",
+    "any.invalid": "La imagen no es válida",
+  }),
+}).options({ stripUnknown: true });

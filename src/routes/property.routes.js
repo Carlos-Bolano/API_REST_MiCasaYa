@@ -11,7 +11,10 @@ import {
   updatePropertyImagesById,
 } from "../controllers/property.controller.js";
 
-import { propertySchema } from "../schemas/property.schema.js";
+import {
+  propertySchema,
+  updateImageSchema,
+} from "../schemas/property.schema.js";
 
 import { uploadImagesWithMulter } from "../middlewares/validateImagesMulter.js";
 import { cleanUploadsFolder } from "../middlewares/cleanUploadsFolder.js";
@@ -41,7 +44,14 @@ router.put(
   updatePropertyInfoById
 );
 
-router.put("/update-images/:id", authRequired, updatePropertyImagesById);
+router.put(
+  "/update-images/:id",
+  authRequired,
+  cleanUploadsFolder,
+  validateSchema(updateImageSchema),
+  uploadImagesWithMulter,
+  updatePropertyImagesById
+);
 
 router.delete("/properties/:id", authRequired, deletePropertyById);
 
